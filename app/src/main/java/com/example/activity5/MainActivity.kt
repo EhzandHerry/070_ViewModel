@@ -95,7 +95,7 @@ fun TampilLayout(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun TextHasil(namanya: String, telponnya: String, jenisnya: String){
+fun TextHasil(namanya: String, telponnya: String, jenisnya: String, alamatnya: String){
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -118,6 +118,10 @@ fun TextHasil(namanya: String, telponnya: String, jenisnya: String){
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
+        Text(text = "Alamat : " + alamatnya,
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+        )
     }
 }
 
@@ -128,6 +132,7 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
 
     var textNama by remember { mutableStateOf("")}
     var textTlp by remember { mutableStateOf("")}
+    var textAlt by remember { mutableStateOf("")}
 
     val context = LocalContext.current
     val dataForm: DataForm
@@ -155,13 +160,23 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
             textTlp = it
         }
     )
+    OutlinedTextField(
+        value = textAlt,
+        singleLine = true,
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.fillMaxWidth(),
+        label = {Text(text = "Alamat")},
+        onValueChange = {
+            textAlt = it
+        }
+    )
     SelectJK(
         options = jenis.map { id -> context.resources.getString(id) },
         onSelectionChange = {cobaViewModel.setJenisK(it)})
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
-            cobaViewModel.insertData(textNama,textTlp, dataForm.sex)
+            cobaViewModel.insertData(textNama,textTlp, dataForm.sex, textAlt)
         }
     ) {
         Text(
@@ -173,7 +188,8 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
     TextHasil(
         namanya = cobaViewModel.namaUsr,
         telponnya = cobaViewModel.noTlp,
-        jenisnya = cobaViewModel.jenisKl
+        jenisnya = cobaViewModel.jenisKl,
+        alamatnya = cobaViewModel.alamat
     )
 }
 @Composable
