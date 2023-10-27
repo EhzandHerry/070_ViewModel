@@ -134,7 +134,7 @@ fun TextHasil(namanya: String, telponnya: String, jenisnya: String,statusnya: St
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
         Text(
-            text = "JenisK : " + telponnya,
+            text = "JenisK : " + jenisnya,
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
@@ -214,9 +214,7 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
     SelectJK(
         options = jenis.map { id -> context.resources.getString(id) },
         onSelectionChange = {cobaViewModel.setJenisK(it)})
-    SelectSt(
-        options = status.map { id -> context.resources.getString(id) },
-        onSelectionChange = {cobaViewModel.setStat(it)})
+
 
     Button(
         modifier = Modifier.fillMaxWidth(),
@@ -229,7 +227,7 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
             fontSize = 16.sp
         )
     }
-    Spacer(modifier = Modifier.height(100.dp))
+    Spacer(modifier = Modifier.height(50.dp))
     TextHasil(
         namanya = cobaViewModel.namaUsr,
         telponnya = cobaViewModel.noTlp,
