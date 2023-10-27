@@ -79,8 +79,27 @@ fun DefaultPreview() {
     }
 }
 
+
+
 @Composable
 fun TampilLayout(modifier: Modifier = Modifier) {
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+        .fillMaxSize()
+        .padding(15.dp)) {
+        Text(text = "Create Your Account",
+            fontSize = 25.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.padding(13.dp))
+        Box1()
+        Spacer(modifier = Modifier.padding(13.dp))
+        LocationTemp()
+        Spacer(modifier = Modifier.padding(13.dp))
+        Box2()
+    }
 
     Card (
         modifier = Modifier,
