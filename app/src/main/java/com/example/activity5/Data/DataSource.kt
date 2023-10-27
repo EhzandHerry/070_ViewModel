@@ -7,5 +7,8 @@ object DataSource {
         R.string.laki,
         R.string.wanita
     )
-
+    val status = listOf(
+        "Menikah",
+        "Belum Menikah"
+    )
 }
