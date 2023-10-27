@@ -41,8 +41,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.activity5.Data.DataForm
 import com.example.activity5.Data.DataSource.jenis
+
 import com.example.activity5.ui.theme.Activity5Theme
 import com.example.activity5.ui.theme.CobaViewModel
+import org.intellij.lang.annotations.JdkConstants.TitledBorderJustification
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +81,7 @@ fun DefaultPreview() {
 
 @Composable
 fun TampilLayout(modifier: Modifier = Modifier) {
+
     Card (
         modifier = Modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
@@ -95,7 +98,7 @@ fun TampilLayout(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun TextHasil(namanya: String, telponnya: String, jenisnya: String, alamatnya: String){
+fun TextHasil(namanya: String, telponnya: String, jenisnya: String, alamatnya: String, emailnya: String){
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -122,6 +125,11 @@ fun TextHasil(namanya: String, telponnya: String, jenisnya: String, alamatnya: S
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
+
+        Text(text = "Email : " + emailnya,
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+        )
     }
 }
 
@@ -133,6 +141,7 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
     var textNama by remember { mutableStateOf("")}
     var textTlp by remember { mutableStateOf("")}
     var textAlt by remember { mutableStateOf("")}
+    var textEm by remember { mutableStateOf("")}
 
     val context = LocalContext.current
     val dataForm: DataForm
@@ -170,13 +179,24 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
             textAlt = it
         }
     )
+    OutlinedTextField(
+        value = textEm,
+        singleLine = true,
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.fillMaxWidth(),
+        label = {Text(text = "Email")},
+        onValueChange = {
+            textEm = it
+        }
+    )
     SelectJK(
         options = jenis.map { id -> context.resources.getString(id) },
         onSelectionChange = {cobaViewModel.setJenisK(it)})
+
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
-            cobaViewModel.insertData(textNama,textTlp, dataForm.sex, textAlt)
+            cobaViewModel.insertData(textNama,textTlp, dataForm.sex,textAlt, textEm)
         }
     ) {
         Text(
@@ -189,7 +209,8 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
         namanya = cobaViewModel.namaUsr,
         telponnya = cobaViewModel.noTlp,
         jenisnya = cobaViewModel.jenisKl,
-        alamatnya = cobaViewModel.alamat
+        alamatnya = cobaViewModel.alamat,
+        emailnya = cobaViewModel.email,
     )
 }
 @Composable
