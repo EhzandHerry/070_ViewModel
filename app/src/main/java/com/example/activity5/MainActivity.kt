@@ -32,15 +32,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.activity5.Data.DataForm
 import com.example.activity5.Data.DataSource.jenis
+import com.example.activity5.Data.DataSource.status
 
 import com.example.activity5.ui.theme.Activity5Theme
 import com.example.activity5.ui.theme.CobaViewModel
@@ -93,12 +97,6 @@ fun TampilLayout(modifier: Modifier = Modifier) {
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.padding(13.dp))
-        Box1()
-        Spacer(modifier = Modifier.padding(13.dp))
-        LocationTemp()
-        Spacer(modifier = Modifier.padding(13.dp))
-        Box2()
     }
 
     Card (
@@ -117,7 +115,7 @@ fun TampilLayout(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun TextHasil(namanya: String, telponnya: String, jenisnya: String, alamatnya: String, emailnya: String){
+fun TextHasil(namanya: String, telponnya: String, jenisnya: String,statusnya: String, alamatnya: String, emailnya: String){
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -137,6 +135,11 @@ fun TextHasil(namanya: String, telponnya: String, jenisnya: String, alamatnya: S
         )
         Text(
             text = "JenisK : " + telponnya,
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+        )
+        Text(
+            text = "Status : " + statusnya,
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
@@ -211,11 +214,14 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
     SelectJK(
         options = jenis.map { id -> context.resources.getString(id) },
         onSelectionChange = {cobaViewModel.setJenisK(it)})
+    SelectSt(
+        options = status.map { id -> context.resources.getString(id) },
+        onSelectionChange = {cobaViewModel.setJenisK(it)})
 
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
-            cobaViewModel.insertData(textNama,textTlp, dataForm.sex,textAlt, textEm)
+            cobaViewModel.insertData(textNama,textTlp, dataForm.sex, dataForm.status, textAlt, textEm)
         }
     ) {
         Text(
@@ -229,11 +235,42 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
         telponnya = cobaViewModel.noTlp,
         jenisnya = cobaViewModel.jenisKl,
         alamatnya = cobaViewModel.alamat,
+        statusnya = cobaViewModel.status,
         emailnya = cobaViewModel.email,
     )
 }
 @Composable
 fun SelectJK(
+    options : List<String>,
+    onSelectionChange: (String) -> Unit = {}
+){
+    var selectedValue by rememberSaveable{ mutableStateOf("")}
+
+    Column( modifier = Modifier.padding(10.dp)) {
+        options.forEach{ item ->
+            Row (
+                modifier = Modifier.selectable(
+                    selected = selectedValue == item,
+                    onClick = {
+                        selectedValue = item
+                        onSelectionChange(item)
+                    }
+                ),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                RadioButton(selected = selectedValue == item,
+                    onClick = {
+                        selectedValue = item
+                        onSelectionChange(item)
+                    }
+                )
+                Text(item)
+            }
+        }
+    }
+}
+@Composable
+fun SelectSt(
     options : List<String>,
     onSelectionChange: (String) -> Unit = {}
 ){
