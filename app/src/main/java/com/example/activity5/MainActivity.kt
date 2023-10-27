@@ -216,7 +216,7 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()){
         onSelectionChange = {cobaViewModel.setJenisK(it)})
     SelectSt(
         options = status.map { id -> context.resources.getString(id) },
-        onSelectionChange = {cobaViewModel.setJenisK(it)})
+        onSelectionChange = {cobaViewModel.setStat(it)})
 
     Button(
         modifier = Modifier.fillMaxWidth(),
